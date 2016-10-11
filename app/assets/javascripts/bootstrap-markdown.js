@@ -444,10 +444,21 @@
       } else {
         // Set the content
         var val = this.$textarea.val();
-        if(typeof markdown == 'object') {
+        if (typeof markdown == 'object') {
           content = markdown.toHTML(val);
-          content = unescape(escape(content).replace(/%0A/, "%3Cbr%3E"));
-        }else if(typeof marked == 'function') {
+
+          /*
+           * First substitute one line break to one <br> tag
+           * so if U click enter twice, then two br tags will be generated.
+           * so substitute twice to fix it.
+           */
+          var es_content;
+          es_content = escape(content);
+          es_content = es_content.replace(/%0A/g, "%3Cbr%3E");
+          es_content = es_content.replace(/%3Cbr%3E%3Cbr%3E/g, "%3Cbr%3E");
+
+          content = unescape(es_content);
+        } else if(typeof marked == 'function') {
           content = marked(val);
         } else {
           content = val;

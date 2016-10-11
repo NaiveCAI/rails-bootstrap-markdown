@@ -446,7 +446,7 @@
         var val = this.$textarea.val();
         if(typeof markdown == 'object') {
           content = markdown.toHTML(val);
-          content = unescape(escape(content).replace(/%0A/, "%3Cbr%3E"));
+          content = unescape(escape(content).replace(/%0A/g, "%3Cbr%3E"));
         }else if(typeof marked == 'function') {
           content = marked(val);
         } else {
